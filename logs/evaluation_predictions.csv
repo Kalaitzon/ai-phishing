@@ -1,0 +1,11 @@
+text,true_label,predicted_label,phishing_probability
+"Hello, here is the updated document we mentioned after class. Please sign in to view it at https://workspace-docs-access.example.com/open.",phishing,legitimate,0.27258061333855704
+Good afternoon. The portal migration is nearly complete. Please re-enter your institutional credentials at http://203.0.113.10/portal so your account remains synced.,phishing,legitimate,0.24757686211047883
+The reimbursement spreadsheet is ready. Open the secure link and confirm your staff details before processing can continue.,phishing,phishing,0.5492668365471715
+The research repository requires one final identity check. Review the shared file and sign in to proceed.,phishing,phishing,0.5759997748710213
+We noticed an authentication mismatch in your mailbox. Use the validation page below to prevent service disruption.,phishing,legitimate,0.02349265102174848
+"Hello, here is the updated document we mentioned after class. It is also available through the normal course workspace.",legitimate,legitimate,0.00870236740483332
+The portal migration is nearly complete. Accounts will remain available during the change window.,legitimate,legitimate,0.024491245979391275
+The reimbursement spreadsheet is ready. Finance will contact you if any details are missing.,legitimate,legitimate,0.02048094690038552
+The research repository maintenance window starts tonight. No user action is required.,legitimate,legitimate,0.026462515534915933
+We noticed a synchronization delay in the mailbox archive. The issue is being handled by IT.,legitimate,legitimate,0.019686613787500307
