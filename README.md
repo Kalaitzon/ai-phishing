@@ -1,5 +1,3 @@
-Καλαϊτζίδης Ιωάννης-ΜΤΕ25012
-
 Υποχρεωτικά Tasks:
 
 Task 1-Feature Engineering (feature_extraction.py):
