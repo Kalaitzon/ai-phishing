@@ -1,68 +1,120 @@
-Υποχρεωτικά Tasks:
+# AI Phishing Detection System
 
-Task 1-Feature Engineering (feature_extraction.py):
+> MSc Assignment — Advanced Topics in Cybersecurity and Artificial Intelligence  
+> University of Piraeus | Department of Digital Systems | 2026  
+> **Author:** Ioannis Kalaitzidis (MTE25012)
 
--Προσθέσαμε 4 νέα χαρακτηριστικά στη συνάρτηση compute_handcrafted_features():
+---
 
-	reward_bait_count: ανιχνεύει λέξεις δελεασμού (prize, winner, gift card κ.λπ.)
-	at_symbol_url_count: εντοπίζει URLs που περιέχουν @ (τεχνική παρακαμπτήριου διαπιστευτηρίων)
-	display_name_spoof: ελέγχει αν το display name του αποστολέα πλαστογραφεί γνωστό οργανισμό
-	max_url_entropy: υπολογίζει εντροπία Shannon στα domains για εντοπισμό αλγοριθμικά παραγόμενων URLs (DGA)
+## Overview
 
+A Flask-based web application that analyses email files (`.html`, `.eml`, `.docx`) and returns a hybrid risk score by combining:
+- A **Support Vector Machine (SVM)** classifier trained on 2,500 samples
+- A **weighted heuristic rule engine** with 12 severity-tagged detection rules
 
-Task 2-Enhancement of Phishing Detection Logic (feature_extraction.py):
+The system was extended from a baseline lab provided by the course instructors as part of a 6-task assignment covering feature engineering, model replacement, error analysis, and UI explainability.
 
--Αναβαθμίσαμε τη συνάρτηση phishing_cues():
+---
 
-	Όλα τα υπάρχοντα μηνύματα εμπλουτίστηκαν με ετικέτες σοβαρότητας ([LOW]/[MEDIUM]/[HIGH]/[CRITICAL]) και αναλυτικές εξηγήσεις
-	Προστέθηκαν 4 νέοι κανόνες: Reward Bait, Display-Name Spoofing, Credential Redirect Path, High-Entropy Domain (DGA)
-	Η συνάρτηση επιστρέφει πλέον tuple[list[str], int] αντί για απλή λίστα, ώστε να εκθέτει και το weighted heuristic score (0–100)
+## Project Structure
 
+```
+ai_phishing/
+├── data/                  # Datasets (training, homework, challenge)
+├── model/                 # Trained SVM pipeline (.joblib) + metrics
+├── sample_inputs/         # Test files for manual evaluation
+├── templates/             # Jinja2 HTML template (upload.html)
+├── app.py                 # Flask web application
+├── feature_extraction.py  # Feature engineering + detection rules
+├── train_model.py         # Model training pipeline
+├── evaluate_model.py      # Model evaluation on challenge dataset
+├── requirements.txt       # Python dependencies
+└── Report-AI Phishing.docx  # Full assignment report
+```
 
-Task 3 — Model Retraining and Evaluation (train_model.py):
+---
 
--Εκπαιδεύσαμε το baseline μοντέλο (Logistic Regression, αρχικά features): 99.8% accuracy
--Εκπαιδεύσαμε το enhanced μοντέλο (Logistic Regression, νέα features): 99.8% accuracy
--Η σταθερότητα οφείλεται στο καθαρό dataset-η πραγματική βελτίωση αναδεικνύεται στο Task 5
+## Implemented Tasks
 
+| Task | Description |
+|------|-------------|
+| Task 1 | Feature Engineering — 4 new handcrafted features including Shannon Entropy for DGA detection |
+| Task 2 | Enhanced detection logic — 4 new rules with weighted scoring (0–100) and severity tags |
+| Task 3 | Model retraining and evaluation — baseline vs enhanced comparison |
+| Task 4 | Model replacement — Logistic Regression → SVM (LinearSVC + CalibratedClassifierCV) |
+| Task 5 | Error analysis — 3 FN + 1 FP scenario on adversarial challenge dataset |
+| Task 6 | Application extension — Risk Score Breakdown panel + colour-coded cues |
+| Optional | Generalization evaluation on `challenge_dataset.csv` (70% vs 100% accuracy) |
 
-Task 4 — Model Replacement (train_model.py):
+---
 
--Αντικαταστήσαμε τον LogisticRegression με LinearSVC (Support Vector Machine)
--Χρησιμοποιήσαμε CalibratedClassifierCV για να παράγεται predict_proba() που χρειάζεται το risk score
--Αποτέλεσμα SVM: 100% accuracy — εξάλειψη του False Negative του baseline
--Τα metrics αποθηκεύτηκαν στο model/metrics_svm.json (το αρχικό metrics.json διατηρήθηκε για σύγκριση)
+## Installation
 
+```bash
+# 1. Clone the repository
+git clone https://github.com/Kalaitzon/ai-phishing.git
+cd ai-phishing
 
-Task 5 — Error Analysis (evaluate_model.py):
+# 2. Create and activate a virtual environment
+python -m venv .venv
+.venv\Scripts\activate        # Windows
+source .venv/bin/activate     # Linux / macOS
 
--Αλλάξαμε το DATA_PATH από dataset.csv σε challenge_dataset.csv (10 adversarial δείγματα)
--Αποτέλεσμα SVM στο challenge set: 70% accuracy, 3 False Negatives, 0 False Positives
--Αναλύσαμε 2 FN και 1 υποθετικό FP με αιτιολόγηση και προτάσεις βελτίωσης
+# 3. Install dependencies
+pip install -r requirements.txt
+```
 
+---
 
-Task 6-Application Extension (app.py, templates/upload.html):
+## Usage
 
--Η calculate_risk() επιστρέφει πλέον tuple[float, float] (combined score + heuristic score)
--Προστέθηκε Risk Score Breakdown panel: εμφανίζει ξεχωριστά ML probability, heuristic score και combined risk
--Τα triggered cues εμφανίζονται με χρωματική κωδικοποίηση ανά σοβαρότητα (κόκκινο/πορτοκαλί/κίτρινο/πράσινο)
+### Train the model
+```bash
+python train_model.py
+```
+Trains on `data/dataset_large.csv` by default (2,500 samples, 80/20 split).
 
+### Run the web application
+```bash
+python app.py
+```
+Open `http://127.0.0.1:5000/` and upload a `.html`, `.eml`, or `.docx` file.
 
-Προαιρετικό Task:
+### Evaluate on challenge dataset
+```bash
+python evaluate_model.py
+```
+Runs the trained SVM on `data/challenge_dataset.csv` and prints accuracy, confusion matrix, and per-class metrics.
 
--Αξιολογήσαμε το τελικό SVM μοντέλο στο challenge_dataset.csv — ένα σύνολο adversarial δειγμάτων εκτός του training set. Τα αποτελέσματα (70% vs 100%) αναδεικνύουν τη διαφορά μεταξύ απόδοσης σε καθαρά datasets και πραγματικών συνθηκών.
+---
 
+## Results
 
-Σχόλια στον κώδικα:
+| Model | Accuracy | Recall (Phishing) |
+|-------|----------|-------------------|
+| Baseline LR | 99.8% | 99.6% |
+| Enhanced LR | 99.8% | 99.6% |
+| **SVM (final)** | **100%** | **100%** |
+| SVM on challenge set | 70% | 40% |
 
--Όλα τα αρχεία που επεξεργαστήκαμε περιέχουν inline σχόλια στα Αγγλικά που εξηγούν:
+The gap between 100% (clean dataset) and 70% (adversarial dataset) demonstrates the limitation of static rule-based systems against polite phishing that avoids known keywords.
 
-	Τι κάνει κάθε τμήμα κώδικα
-	Γιατί έγινε η συγκεκριμένη επιλογή
-	Σε ποιο Task ανήκει κάθε αλλαγή
-	Πριν/μετά σύγκριση όπου αντικαταστάθηκε ο αρχικός κώδικας (ο παλιός κώδικας παραμένει σε σχόλιο)
+---
 
+## Dependencies
 
-Αναλυτική τεκμηρίωση:
+```
+flask
+scikit-learn
+pandas
+joblib
+python-docx
+beautifulsoup4
+lxml
+```
 
--Όλα τα παραπάνω αναλύονται διεξοδικά στο αρχείο Report_MTE25012-AI_Phishing.pdf
+---
+
+## Report
+
+The full assignment report (`Report-AI Phishing.docx`) covers all 6 tasks with code snippets, model comparison tables, error analysis, and UI screenshots.
