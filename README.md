@@ -2,7 +2,7 @@
 
 > MSc Assignment — Advanced Topics in Cybersecurity and Artificial Intelligence  
 > University of Piraeus | Department of Digital Systems | 2026  
-> **Author:** Ioannis Kalaitzidis (MTE25012)
+> **Author:** Ioannis Kalaitzidis
 
 ---
 
