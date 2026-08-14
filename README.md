@@ -1,6 +1,6 @@
 # AI Phishing Detection System
 
-> MSc Assignment — Advanced Topics in Cybersecurity and Artificial Intelligence  
+> MSc Assignment — Advanced Topics in Artificial Intelligence  
 > University of Piraeus | Department of Digital Systems | 2026  
 > **Author:** Ioannis Kalaitzidis
 
@@ -117,4 +117,4 @@ lxml
 
 ## Report
 
-The full assignment report (`Report-AI Phishing.docx`) covers all 6 tasks with code snippets, model comparison tables, error analysis, and UI screenshots.
+The full assignment report (`Report-AI Phishing.pdf`) covers all 6 tasks with code snippets, model comparison tables, error analysis, and UI screenshots.
