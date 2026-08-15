@@ -1,11 +1,3 @@
-# AI Phishing Detection System
-
-> MSc Assignment — Advanced Topics in Artificial Intelligence  
-> University of Piraeus | Department of Digital Systems | 2026  
-> **Author:** Ioannis Kalaitzidis
-
----
-
 ## Overview
 
 A Flask-based web application that analyses email files (`.html`, `.eml`, `.docx`) and returns a hybrid risk score by combining:
