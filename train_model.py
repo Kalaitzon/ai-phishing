@@ -1,5 +1,3 @@
-# ── Kalaitzidis Ioannis - MTE25012 ─────────────────────────────────────────────────────
-
 from __future__ import annotations
 
 import json
